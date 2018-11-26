@@ -22,7 +22,7 @@ class Gmap extends Component {
 
     gmapsPromise.then((google) => {
       const script = document.createElement("script");
-      script.src= 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD5YOqiaQ6dBEhFOYlh0YWxF2Cs92Xh9AQ&callback=initGmap'
+      script.src= 'https://maps.googleapis.com/maps/api/js?key=[apikey]&callback=initGmap'
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
