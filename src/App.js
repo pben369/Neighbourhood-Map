@@ -14,7 +14,7 @@ class App extends Component {
 
   handleToUpdateVenue = (updatedVenue) => {
     this.setState({venues : updatedVenue})
-    // console.log("handleToUpdateVenue " + this.state.venues)
+    
   }
 
   handleToUpdateMarkers = (updatedMarkers) => {
@@ -22,6 +22,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.venues)
     return (
       <div className="App">
         <Gmap 

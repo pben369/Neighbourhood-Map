@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 class Gmap extends Component {
 
-  // handleInfoWindows = (map) => {
-  //   let infowindow = new window.google.maps.InfoWindow();
-  //   window.google.maps.event.addListener(marker, 'click', function(){
-  //     infowindow.open(map, marker);
-  //   })
-  // }
+  openInfoWindows = (infowindow, map, marker, contentString) => {
+    window.google.maps.event.addListener(marker, 'click', function(){
+      infowindow.setContent(contentString)
+      infowindow.open(map, marker);
+    })
+  }
 
   defaultMapParams = (mapToMarkOn) => {
     let bangalore = {lat: 12.9716, lng: 77.5946};
@@ -20,6 +20,8 @@ class Gmap extends Component {
   }
 
   positionMarkers = (mapToMarkOn) => {
+    //create infoWindow object
+    let infowindow = new window.google.maps.InfoWindow();
 
     // console.log("Positionsmarkers " + this.props.venues + "<=")
     this.props.setMarkersState(
@@ -31,26 +33,20 @@ class Gmap extends Component {
           map: mapToMarkOn,
           title: currentPos.venue.name
         })
-        
-        // let contentString = `${currentPos.venue.name}`
-        // let infowindow = new window.google.maps.InfoWindow({
-        //   content: contentString
-        // })
-
-        // marker.addListener('click', function() {
-        //   infowindow.open(mapToMarkOn, marker);
-        // })
 
         //when clicked on a marker zoom in and make its position
         //as maps center
         window.google.maps.event.addListener(marker, 'click', function() {
-          mapToMarkOn.setZoom(16)
+          mapToMarkOn.setZoom(14)
           mapToMarkOn.setCenter(marker.getPosition())
         })
 
         //when clicked on the map set the zoom and map center 
         //to default values
         this.defaultMapParams(mapToMarkOn)
+
+        let contentString = `${currentPos.venue.name}`
+        this.openInfoWindows(infowindow, mapToMarkOn, marker, contentString)
 
         return marker
       })
@@ -93,7 +89,7 @@ class Gmap extends Component {
     const apiURL = "https://api.foursquare.com/v2/venues/explore?" +
       "&client_id=" + id +
       "&client_secret=" + secret +
-      "&query=sights" +
+      "&query=outdoors" +
       "&near=Bangalore" +
       "&v=20181127"
 
