@@ -84,8 +84,10 @@ class Gmap extends Component {
   }
 
   fetchLocations = () => {
-    const id = 'PGRSX0CCUTFUXVNQ3FXED0X5ULYOPSA1QJRJWC5RDVW2MDYH'
-    const secret = 'LGHXNORBKFXLN411QKCTUJ5CVVXRLXG124TIPRD51YSE54RW'
+    const id = process.env.REACT_APP_FS_API_ID
+    // 'PGRSX0CCUTFUXVNQ3FXED0X5ULYOPSA1QJRJWC5RDVW2MDYH'
+    const secret = process.env.REACT_APP_FS_API_SECRET
+    // 'LGHXNORBKFXLN411QKCTUJ5CVVXRLXG124TIPRD51YSE54RW'
     const apiURL = "https://api.foursquare.com/v2/venues/explore?" +
       "&client_id=" + id +
       "&client_secret=" + secret +
