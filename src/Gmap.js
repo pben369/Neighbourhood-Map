@@ -64,7 +64,7 @@ class Gmap extends Component {
 
   createScriptTag = () => {
     window.initGmap = this.initGmap;
-    window.API_KEY = process.env.REACT_APP_GMAP_API_KEY;
+    let API_KEY = process.env.REACT_APP_GMAP_API_KEY;
 
     //create a promise to check if the variable 'google' is available before
     //map initialisation.
@@ -76,7 +76,7 @@ class Gmap extends Component {
 
     gmapsPromise.then((google) => {
       const script = document.createElement("script");
-      script.src= 'https://maps.googleapis.com/maps/api/js?key='+ window.API_KEY + "&callback=initGmap"
+      script.src= 'https://maps.googleapis.com/maps/api/js?key='+ API_KEY + "&callback=initGmap"
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
@@ -84,10 +84,10 @@ class Gmap extends Component {
   }
 
   fetchLocations = () => {
-    const id = process.env.REACT_APP_FS_API_ID
-    // 'PGRSX0CCUTFUXVNQ3FXED0X5ULYOPSA1QJRJWC5RDVW2MDYH'
-    const secret = process.env.REACT_APP_FS_API_SECRET
-    // 'LGHXNORBKFXLN411QKCTUJ5CVVXRLXG124TIPRD51YSE54RW'
+    let id = process.env.REACT_APP_FS_API_ID
+    console.log(process.env.REACT_APP_FS_API_ID)
+    let secret = process.env.REACT_APP_FS_API_SECRET
+    console.log(process.env.REACT_APP_FS_API_SECRET)
     const apiURL = "https://api.foursquare.com/v2/venues/explore?" +
       "&client_id=" + id +
       "&client_secret=" + secret +
