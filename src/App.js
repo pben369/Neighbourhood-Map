@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import Gmap from './Gmap.js'
 
-
 require('dotenv').config();
 
 class App extends Component {
@@ -22,7 +21,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.venues)
+    // console.log(this.state.venues)
     return (
       <div className="App">
         <Gmap 

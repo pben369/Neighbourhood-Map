@@ -37,7 +37,7 @@ class Gmap extends Component {
         //when clicked on a marker zoom in and make its position
         //as maps center
         window.google.maps.event.addListener(marker, 'click', function() {
-          mapToMarkOn.setZoom(14)
+          mapToMarkOn.setZoom(16)
           mapToMarkOn.setCenter(marker.getPosition())
         })
 
@@ -72,8 +72,6 @@ class Gmap extends Component {
         resolve(window.google);
     })
 
-    // AIzaSyB1PyIGOaNpqlJgnjSMDYcFB-ifW15xhi0
-
     gmapsPromise.then((google) => {
       const script = document.createElement("script");
       script.src= 'https://maps.googleapis.com/maps/api/js?key='+ API_KEY + "&callback=initGmap"
@@ -84,10 +82,9 @@ class Gmap extends Component {
   }
 
   fetchLocations = () => {
-    let id = process.env.REACT_APP_FS_API_ID
-    console.log(process.env.REACT_APP_FS_API_ID)
-    let secret = process.env.REACT_APP_FS_API_SECRET
-    console.log(process.env.REACT_APP_FS_API_SECRET)
+    let id = process.env.REACT_APP_FS_API_ID;
+    let secret = process.env.REACT_APP_FS_API_SECRET;
+
     const apiURL = "https://api.foursquare.com/v2/venues/explore?" +
       "&client_id=" + id +
       "&client_secret=" + secret +
