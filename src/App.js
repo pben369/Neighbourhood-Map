@@ -13,7 +13,6 @@ class App extends Component {
 
   handleToUpdateVenue = (updatedVenue) => {
     this.setState({venues : updatedVenue})
-    
   }
 
   handleToUpdateMarkers = (updatedMarkers) => {

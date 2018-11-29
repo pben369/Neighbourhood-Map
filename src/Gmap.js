@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 class Gmap extends Component {
 
+  state = {
+    activeMarkerLoc: null
+  };
+
   openInfoWindows = (infowindow, map, marker, contentString) => {
     window.google.maps.event.addListener(marker, 'click', function(){
       infowindow.setContent(contentString)
@@ -19,6 +23,18 @@ class Gmap extends Component {
     })
   }
 
+  handleMarkerAnimation = (clickedMarker) => {
+    if(this.state.activeMarkerLoc){
+      // to remove the animation setting the value to 'null' has 
+      // a side effect that animation only works twice and the 
+      // third time it stops. As the animation constants are simply 
+      // int setting it to -1 is correct.
+      this.state.activeMarkerLoc.setAnimation(-1)
+    }
+    clickedMarker.setAnimation(window.google.maps.Animation.BOUNCE)
+    this.setState({activeMarkerLoc :clickedMarker})
+  }
+
   positionMarkers = (mapToMarkOn) => {
     //create infoWindow object
     let infowindow = new window.google.maps.InfoWindow();
@@ -31,14 +47,17 @@ class Gmap extends Component {
             lat: currentPos.venue.location.lat,
             lng: currentPos.venue.location.lng },
           map: mapToMarkOn,
-          title: currentPos.venue.name
+          title: currentPos.venue.name,
+          animation: window.google.maps.Animation.DROP
         })
 
         //when clicked on a marker zoom in and make its position
         //as maps center
-        window.google.maps.event.addListener(marker, 'click', function() {
+        let self = this
+        window.google.maps.event.addListener(marker, 'click', function(){
           mapToMarkOn.setZoom(16)
           mapToMarkOn.setCenter(marker.getPosition())
+          self.handleMarkerAnimation(marker)
         })
 
         //when clicked on the map set the zoom and map center 
@@ -99,6 +118,8 @@ class Gmap extends Component {
           this.props.setVenueState(data.response.groups[0].items)
         }).then(data => {
           this.createScriptTag()
+        }).then(data =>{
+          
         })
       .catch(error => { 
         console.log("ERROR!!" + error);
