@@ -6,20 +6,30 @@ class Gmap extends Component {
     activeMarkerLoc: null
   };
 
-  openInfoWindows = (infowindow, map, marker, contentString) => {
+  openInfoWindows = (map, marker, infowindow, venueInfo) => {
+
+    let content = 
+      '<h2>' + venueInfo.venue.name + '</h2>' +
+      '<br>' + venueInfo.venue.location.formattedAddress[0] +
+      '<br>' + venueInfo.venue.location.formattedAddress[1] +
+      '<br>' + venueInfo.venue.location.formattedAddress[2] + 
+      '<br>' + venueInfo.venue.location.formattedAddress[3]
+
     window.google.maps.event.addListener(marker, 'click', function(){
-      infowindow.setContent(contentString)
+      infowindow.setContent(content)
       infowindow.open(map, marker);
     })
   }
 
-  defaultMapParams = (mapToMarkOn) => {
+  defaultMapParams = (mapToMarkOn, marker, infowindow) => {
     let bangalore = {lat: 12.9716, lng: 77.5946};
     //when clicked on the map zoom out and center to default values
     //and close infowindow
     window.google.maps.event.addListener(mapToMarkOn, 'click', function() {
-      mapToMarkOn.setZoom(12)
+      mapToMarkOn.setZoom(13)
       mapToMarkOn.setCenter(bangalore)
+      marker.setAnimation(-1)
+      infowindow.close()
     })
   }
 
@@ -60,12 +70,12 @@ class Gmap extends Component {
           self.handleMarkerAnimation(marker)
         })
 
+        // let contentString = `${currentPos.venue.name}`
+        this.openInfoWindows(mapToMarkOn, marker, infowindow, currentPos)
+
         //when clicked on the map set the zoom and map center 
         //to default values
-        this.defaultMapParams(mapToMarkOn)
-
-        let contentString = `${currentPos.venue.name}`
-        this.openInfoWindows(infowindow, mapToMarkOn, marker, contentString)
+        this.defaultMapParams(mapToMarkOn, marker, infowindow)
 
         return marker
       })
@@ -75,7 +85,7 @@ class Gmap extends Component {
   initGmap = () => {
     let bangalore = {lat: 12.9716, lng: 77.5946};
     let map = new window.google.maps.Map(
-    document.getElementById('map'), {zoom: 12, center: bangalore});
+    document.getElementById('map'), {zoom: 13, center: bangalore});
 
     // The markers positioned at bangalore
     this.positionMarkers(map);
@@ -118,7 +128,7 @@ class Gmap extends Component {
           this.props.setVenueState(data.response.groups[0].items)
         }).then(data => {
           this.createScriptTag()
-        }).then(data =>{
+        }).then(data => {
           
         })
       .catch(error => { 
