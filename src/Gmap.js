@@ -3,53 +3,97 @@ import React, { Component } from 'react';
 class Gmap extends Component {
 
   state = {
-    activeMarkerLoc: null
+    activeMarker: null,
+    activeMarkerVenue: null,
+    activeMarkerPhotoData: null,
+    activeMarkerPhotoUrl: null
   };
 
-  openInfoWindows = (map, marker, infowindow, venueInfo) => {
-
+  infoWindowContent = (venueInfo, infowindow) => {
     let content = 
+      "<img src= \"" + this.state.activeMarkerPhotoUrl + "\" height=\"100\" width=\"100\">" +
       '<h2>' + venueInfo.venue.name + '</h2>' +
       '<br>' + venueInfo.venue.location.formattedAddress[0] +
       '<br>' + venueInfo.venue.location.formattedAddress[1] +
       '<br>' + venueInfo.venue.location.formattedAddress[2] + 
-      '<br>' + venueInfo.venue.location.formattedAddress[3]
+      '<br>' + venueInfo.venue.location.formattedAddress[3] +
+      '<br> Source: FourSquare' 
 
+    infowindow.setContent(content)
+  }
+
+  fetchActiveMarkerPhotoData = (venueInfo, infowindow) => {
+    let id = process.env.REACT_APP_FS_API_ID;
+    let secret = process.env.REACT_APP_FS_API_SECRET;
+
+    if(this.state.activeMarkerVenue){
+      let urlFSPhoto = "https://api.foursquare.com/v2/venues/" + 
+        this.state.activeMarkerVenue.venue.id + "/photos?" +
+        "&client_id=" + id +
+        "&client_secret=" + secret +
+        "&v=20181127"
+
+      fetch(urlFSPhoto)
+        .then((response) => {
+          return response.json ()
+        }).then(data => {
+          this.setState({activeMarkerPhotoData: data.response})
+          console.log(data.response)
+
+          let urlToPhoto
+          if(this.state.activeMarkerPhotoData.photos){
+            urlToPhoto = 
+            this.state.activeMarkerPhotoData.photos.items["0"].prefix +
+            '100' +
+            this.state.activeMarkerPhotoData.photos.items["0"].suffix
+          }
+          else{
+            urlToPhoto = './img/not-found.jpg'
+          }
+
+          console.log(urlToPhoto)
+          this.setState({ activeMarkerPhotoUrl : urlToPhoto})
+        }).then(data => {
+          this.infoWindowContent(venueInfo, infowindow)
+        })
+    }
+  }
+
+  openInfoWindows = (map, marker, infowindow, venueInfo) => {
+    let self = this
     window.google.maps.event.addListener(marker, 'click', function(){
-      infowindow.setContent(content)
       infowindow.open(map, marker);
+
+      self.fetchActiveMarkerPhotoData(venueInfo, infowindow)
+      // console.log(self.state.activeMarkerPhotoUrl )
+      
     })
   }
 
   defaultMapParams = (mapToMarkOn, marker, infowindow) => {
     let bangalore = {lat: 12.9716, lng: 77.5946};
-    //when clicked on the map zoom out and center to default values
-    //and close infowindow
-    window.google.maps.event.addListener(mapToMarkOn, 'click', function() {
-      mapToMarkOn.setZoom(13)
-      mapToMarkOn.setCenter(bangalore)
-      marker.setAnimation(-1)
-      infowindow.close()
-    })
+    mapToMarkOn.setZoom(13)
+    mapToMarkOn.setCenter(bangalore)
+    marker.setAnimation(-1)
+    infowindow.close()
   }
 
   handleMarkerAnimation = (clickedMarker) => {
-    if(this.state.activeMarkerLoc){
+    if(this.state.activeMarker){
       // to remove the animation setting the value to 'null' has 
       // a side effect that animation only works twice and the 
       // third time it stops. As the animation constants are simply 
-      // int setting it to -1 is correct.
-      this.state.activeMarkerLoc.setAnimation(-1)
+      // int, so setting value to -1 is correct.
+      this.state.activeMarker.setAnimation(-1)
     }
     clickedMarker.setAnimation(window.google.maps.Animation.BOUNCE)
-    this.setState({activeMarkerLoc :clickedMarker})
+    this.setState({activeMarker :clickedMarker})
   }
 
   positionMarkers = (mapToMarkOn) => {
     //create infoWindow object
     let infowindow = new window.google.maps.InfoWindow();
 
-    // console.log("Positionsmarkers " + this.props.venues + "<=")
     this.props.setMarkersState(
       this.props.venues.map( currentPos => {
         let marker = new window.google.maps.Marker({
@@ -68,6 +112,9 @@ class Gmap extends Component {
           mapToMarkOn.setZoom(16)
           mapToMarkOn.setCenter(marker.getPosition())
           self.handleMarkerAnimation(marker)
+
+          //set active markers venue information
+          self.setState({activeMarkerVenue : currentPos})
         })
 
         // let contentString = `${currentPos.venue.name}`
@@ -75,8 +122,9 @@ class Gmap extends Component {
 
         //when clicked on the map set the zoom and map center 
         //to default values
-        this.defaultMapParams(mapToMarkOn, marker, infowindow)
-
+        window.google.maps.event.addListener(mapToMarkOn, 'click', function() {
+          self.defaultMapParams(mapToMarkOn, marker, infowindow)
+        })
         return marker
       })
     )
@@ -128,19 +176,18 @@ class Gmap extends Component {
           this.props.setVenueState(data.response.groups[0].items)
         }).then(data => {
           this.createScriptTag()
-        }).then(data => {
-          
         })
       .catch(error => { 
         console.log("ERROR!!" + error);
       })
   }
-
+  
   componentDidMount(){
     this.fetchLocations()
   }
 
   render() {
+    // console.log(this.state.activeMarkerPhotoUrl )
     return (
       <div>
           <h1>My Neighbourhood</h1>
