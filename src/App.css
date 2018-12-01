@@ -1,11 +1,41 @@
 .App {
   text-align: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex !important;
+  position: absolute;
+  flex-flow: row nowrap;
 }
 
-.App-logo {
+.sidebar {
+  width: 25%;
+  height: 100%;
+  background-color:#fff;
+  position: absolute;
+  overflow-y: scroll;
+  z-index: 100;
+  text-align: center;
+}
+
+.map-container {
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.list-items{
+  list-style: none;
+  font-size: 1rem;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+  padding: .5rem;
+  margin: .5rem;
+  cursor: pointer;
+}
+
+/* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
-}
+} */
 
 .App-header {
   background-color: #282c34;
@@ -18,21 +48,31 @@
   color: white;
 }
 
-.App-link {
+/* .App-link {
   color: #61dafb;
-}
+} */
 
-@keyframes App-logo-spin {
+#map {
+  /* position: fixed !important;
+  overflow: visible !important; */
+  height: 100vh;  /* The height is 400 pixels */
+  width: 100%;  /* The width is the width of the web page */
+ }
+ 
+input {
+  width: 100%;
+  height: 45px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
 
-#map {
-  height: 800px;  /* The height is 400 pixels */
-  width: 100%;  /* The width is the width of the web page */
- }
