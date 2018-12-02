@@ -27,8 +27,15 @@ class App extends Component {
     let bangalore = {lat: 12.9716, lng: 77.5946}
     this.state.map.setZoom(13)
     mapToMarkOn.setCenter(bangalore)
-    marker.setAnimation(-1)
-    infowindow.close()
+
+    if (marker) {
+      marker.setAnimation(-1)
+    }
+
+    if (infowindow) {
+      infowindow.close()
+    }
+    
   }
 
   infoWindowContent = (venueInfo, infowindow) => {
@@ -90,7 +97,7 @@ class App extends Component {
   }
 
   handleMarkerClick = (mapToMarkOn, marker, VenueData, infowindow) => {
-    console.log("in")
+    // console.log("in")
     //when clicked on a marker zoom in and make its position
     //as maps center
     
@@ -139,8 +146,8 @@ class App extends Component {
             marker, 
             VenueData, 
             infowindow)
-            console.log("Clicked Marker")
-            console.log(marker)
+            // console.log("Clicked Marker")
+            // console.log(marker)
         })
 
         //when clicked on the map set the zoom and map center 
@@ -217,8 +224,8 @@ class App extends Component {
     let marker = this.state.markers.filter(m =>
       m.id === clickedVenue.venue.id)[0]
 
-      console.log("Clicked list")
-      console.log(marker)
+      // console.log("Clicked list")
+      // console.log(marker)
       this.handleMarkerClick(
         this.state.map, 
         marker, 
@@ -228,7 +235,7 @@ class App extends Component {
   }
 
   render() {
-    // console.log(this.state.venues)
+    console.log(this.state.venues)
     // console.log(this.state.markers)
     return (
       <div id="App">
@@ -237,11 +244,13 @@ class App extends Component {
           <div className="sidebar">
             <Sidebar 
               mapToMarkOn = {this.state.map}
+              infowindow = {this.state.infowindow}
               venuesData = {this.state.venues}
               markers= {this.state.markers}
               updateMarkerState = {this.updateMarkerState}
               handleSidebarListClick = {this.handleSidebarListClick}
               updateQuery = {this.updateQuery}
+              defaultMapParams = {this.defaultMapParams}
             />
           </div>
           <div className="map-container">

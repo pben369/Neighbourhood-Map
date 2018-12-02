@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Venuelist from './Venuelist';
 
 class Sidebar extends Component {
 
@@ -24,39 +25,37 @@ class Sidebar extends Component {
       }
       return currentMarker
     })
-      this.props.updateMarkerState(queryMarkers)
+    
+    this.props.defaultMapParams(
+      this.props.mapToMarkOn, 
+      null,
+      this.props.infowindow)
+
+    this.props.updateMarkerState(queryMarkers)
+      // console.log("query markers => ")
+      // console.log(queryMarkers)
   }
 
   render() {
     // console.log(this.state.activeMarkerPhotoUrl )
     // console.log(this.props.mapToMarkOn)
+    // console.log("Marker state =>")
+    // console.log(this.props.markers)
     return (
       <div>
         <input 
-          type="text"
+          type="search"
           id="search"
-          placeholder="Search Venues"
+          placeholder="Search Venue by Name"
           value={this.props.query}
           onChange={(event) => 
             this.updateQuery(event.target.value)}
         />
-        <ol className="Venuelist">
-          {this.props.venuesData && 
-          this.props.venuesData.map((venue, id) => {
-            return(
-              <li 
-                className="list-items" 
-                key= {venue.venue.id}
-                onClick = {() => {
-                  this.props.handleSidebarListClick(venue)
-                } 
-              }>
-                {venue.venue.name}
-              </li>
-            )
-          }
-          )}
-        </ol>
+        <Venuelist 
+          venuesData = {this.props.venuesData}
+          markers= {this.props.markers}
+          handleSidebarListClick = {this.props.handleSidebarListClick}
+          />
       </div>
     )
   }
