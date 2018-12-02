@@ -15,7 +15,12 @@ class App extends Component {
     activeMarker: null,
     activeMarkerData: null,
     activeMarkerPhotoData: null,
-    activeMarkerPhotoUrl: null
+    activeMarkerPhotoUrl: null,
+    query: ''
+  }
+
+  updateMarkerState =(markers) =>{
+    this.setState({markers})
   }
 
   defaultMapParams = (mapToMarkOn, marker, infowindow) => {
@@ -208,7 +213,7 @@ class App extends Component {
     this.fetchLocations()
   }
 
-  handleListItemsClick = (clickedVenue) => {
+  handleSidebarListClick = (clickedVenue) => {
     let marker = this.state.markers.filter(m =>
       m.id === clickedVenue.venue.id)[0]
 
@@ -227,12 +232,16 @@ class App extends Component {
     // console.log(this.state.markers)
     return (
       <div id="App">
-        <h1>My Neighbourhood</h1>
+        <h1>Namma Bengaluru</h1>
         <div>
           <div className="sidebar">
             <Sidebar 
+              mapToMarkOn = {this.state.map}
               venuesData = {this.state.venues}
-              handleListItemsClick = {this.handleListItemsClick}
+              markers= {this.state.markers}
+              updateMarkerState = {this.updateMarkerState}
+              handleSidebarListClick = {this.handleSidebarListClick}
+              updateQuery = {this.updateQuery}
             />
           </div>
           <div className="map-container">
