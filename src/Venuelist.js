@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Venuelist extends Component {
   render() {
-    // console.log(this.state.activeMarkerPhotoUrl )
     return (
       <ol className="Venuelist">
         {this.props.venuesData && 
@@ -21,8 +20,7 @@ class Venuelist extends Component {
                     } 
                   }>
                     <h3>{venue.venue.name}</h3>
-                    <h4>{venue.venue.location.crossStreet}</h4>
-                     
+                    <p>{venue.venue.location.crossStreet}</p>
                   </li>
                 )
               }else{

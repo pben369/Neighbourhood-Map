@@ -32,15 +32,9 @@ class Sidebar extends Component {
       this.props.infowindow)
 
     this.props.updateMarkerState(queryMarkers)
-      // console.log("query markers => ")
-      // console.log(queryMarkers)
   }
 
   render() {
-    // console.log(this.state.activeMarkerPhotoUrl )
-    // console.log(this.props.mapToMarkOn)
-    // console.log("Marker state =>")
-    // console.log(this.props.markers)
     return (
       <div>
         <input 

@@ -13,7 +13,6 @@ class App extends Component {
     venues: [],
     markers: [],
     activeMarker: null,
-    activeMarkerData: null,
     activeMarkerPhotoData: null,
     activeMarkerPhotoUrl: null,
     query: ''
@@ -35,73 +34,35 @@ class App extends Component {
     if (infowindow) {
       infowindow.close()
     }
-    
   }
 
   infoWindowContent = (venueInfo, infowindow) => {
     let content = 
-      "<img src= \"" + this.state.activeMarkerPhotoUrl + "\" height=\"100\" width=\"100\">" +
+      "<div class=\"infowindow\">" +
+      "<img class=\"venue-photo\" alt=\"" + venueInfo.venue.name + "\" src= \"" + venueInfo.photourl + "\" height=\"100\" width=\"100\">" +
       '<h2>' + venueInfo.venue.name + '</h2>' +
       '<br>' + venueInfo.venue.location.formattedAddress[0] +
       '<br>' + venueInfo.venue.location.formattedAddress[1] +
       '<br>' + venueInfo.venue.location.formattedAddress[2] +
       '<br>' + venueInfo.venue.location.formattedAddress[3] +
-      '<br> Source: FourSquare'
+      '<br><br> Source: FourSquare' +
+      "</div>"
 
+      console.log(content)
     infowindow.setContent(content)
-  }
-
-  handleMarkerPhotoUrl =() => {
-    let urlToPhoto
-    if(this.state.activeMarkerPhotoData.photos &&
-      this.state.activeMarkerPhotoData.photos.items["0"]){
-      urlToPhoto = 
-      this.state.activeMarkerPhotoData.photos.items["0"].prefix +
-      '100' +
-      this.state.activeMarkerPhotoData.photos.items["0"].suffix
-    }
-    else{
-      //fallback image url
-      urlToPhoto = "http://www.azcounties.org/images/pages/N198/No%20found%20photo.png"
-    }
-    // console.log(urlToPhoto)
-    this.setState({activeMarkerPhotoUrl : urlToPhoto})
-  }
-
-  fetchActiveMarkerPhotoData = (venueInfo, infowindow) => {
-    let id = process.env.REACT_APP_FS_API_ID;
-    let secret = process.env.REACT_APP_FS_API_SECRET
-
-    if(this.state.activeMarkerData){
-      let urlFSPhoto = "https://api.foursquare.com/v2/venues/" + 
-        this.state.activeMarkerData.venue.id + "/photos?" +
-        "&client_id=" + id +
-        "&client_secret=" + secret +
-        "&v=20181127"
-
-      fetch(urlFSPhoto)
-        .then((response) => {
-          return response.json ()
-        }).then(data => {
-          this.setState({activeMarkerPhotoData: data.response})
-          this.handleMarkerPhotoUrl()
-          this.infoWindowContent(venueInfo, infowindow)
-        })
-    }
   }
 
   openInfoWindows = (map, marker, infowindow, VenueData) => {
     infowindow.open(map, marker)
     infowindow.setContent(null)
-    this.fetchActiveMarkerPhotoData(VenueData, infowindow)
+    // this.fetchActiveMarkerPhotoData(VenueData, infowindow)
+    this.infoWindowContent(VenueData, infowindow)
   }
 
   handleMarkerClick = (mapToMarkOn, marker, VenueData, infowindow) => {
-    // console.log("in")
     //when clicked on a marker zoom in and make its position
     //as maps center
-    
-    mapToMarkOn.setZoom(16)
+    mapToMarkOn.setZoom(15)
     mapToMarkOn.setCenter(marker.getPosition())
 
     if(this.state.activeMarker){
@@ -115,11 +76,7 @@ class App extends Component {
     marker.setAnimation(window.google.maps.Animation.BOUNCE)
     // clickedMarker.setMap(null)
     this.setState({activeMarker :marker})
-    //set active markers venue information
-    this.setState({activeMarkerData : VenueData})
-
     this.openInfoWindows(mapToMarkOn, marker, infowindow, VenueData)
-    
   }
 
   positionMarkers = (mapToMarkOn) => {
@@ -146,16 +103,12 @@ class App extends Component {
             marker, 
             VenueData, 
             infowindow)
-            // console.log("Clicked Marker")
-            // console.log(marker)
         })
-
         //when clicked on the map set the zoom and map center 
         //to default values
         window.google.maps.event.addListener(mapToMarkOn, 'click', function() {
           self.defaultMapParams(mapToMarkOn, marker, infowindow)
         })
-
         return marker
       })
     })
@@ -198,9 +151,10 @@ class App extends Component {
     const apiURL = "https://api.foursquare.com/v2/venues/explore?" +
       "&client_id=" + id +
       "&client_secret=" + secret +
-      "&section=sights" +
+      "&section=outdoor" +
       "&near=Bangalore" +
       "&venuePhotos=1" +
+      "&limit=9" +
       "&v=20181127"
 
     fetch(apiURL)
@@ -208,12 +162,55 @@ class App extends Component {
         return response.json ()
       }).then(data => {
         this.setState({venues : data.response.groups[0].items })
-        }).then(data => {
-          this.createScriptTag()
-        })
-      .catch(error => { 
-        console.log("ERROR!!" + error)
+      }).then(data => {
+        let updatedVenues =
+          this.state.venues.map(venue => {
+            let urlFSPhoto = "https://api.foursquare.com/v2/venues/" + 
+            venue.venue.id + "/photos?" +
+              "&client_id=" + id +
+              "&client_secret=" + secret +
+              "&v=20181127"
+            fetch(urlFSPhoto)
+              .then((response) => {
+                return response.json ()
+              }).then(data => {
+                this.setState({activeMarkerPhotoData: data.response})
+                
+                let urlToPhoto
+                if(this.state.activeMarkerPhotoData.photos &&
+                  this.state.activeMarkerPhotoData.photos.items["0"]){
+                  urlToPhoto = 
+                  this.state.activeMarkerPhotoData.photos.items["0"].prefix +
+                  '100' +
+                  this.state.activeMarkerPhotoData.photos.items["0"].suffix
+                }
+                else{
+                  //fallback image url
+                  urlToPhoto = "http://www.azcounties.org/images/pages/N198/No%20found%20photo.png"
+                }
+                venue.photourl = urlToPhoto
+              }).catch(error => { 
+                alert(
+                  "An error occurred while trying to fetch photo's from Foursquare: " +
+                    error
+                );
+              })
+            return venue
+          })
+        this.setState({venues:updatedVenues})
+      }).then(data => {
+        this.createScriptTag()
       })
+      .catch(error => { 
+        alert(
+          "An error occurred while trying to fetch data from Foursquare: " +
+            error
+        );
+      })
+
+      window.gm_authFailure = () => {
+        alert("An error occurred while trying to load Google Map");
+      }
   }
   
   componentDidMount(){
@@ -221,11 +218,9 @@ class App extends Component {
   }
 
   handleSidebarListClick = (clickedVenue) => {
-    let marker = this.state.markers.filter(m =>
-      m.id === clickedVenue.venue.id)[0]
+    let marker = this.state.markers.filter(marker =>
+      marker.id === clickedVenue.venue.id)[0]
 
-      // console.log("Clicked list")
-      // console.log(marker)
       this.handleMarkerClick(
         this.state.map, 
         marker, 
@@ -236,21 +231,20 @@ class App extends Component {
 
   render() {
     console.log(this.state.venues)
-    // console.log(this.state.markers)
     return (
       <div id="App">
         <h1>Namma Bengaluru</h1>
         <div>
           <div className="sidebar">
             <Sidebar 
-              mapToMarkOn = {this.state.map}
-              infowindow = {this.state.infowindow}
-              venuesData = {this.state.venues}
-              markers= {this.state.markers}
-              updateMarkerState = {this.updateMarkerState}
-              handleSidebarListClick = {this.handleSidebarListClick}
-              updateQuery = {this.updateQuery}
-              defaultMapParams = {this.defaultMapParams}
+              mapToMarkOn = { this.state.map }
+              infowindow = { this.state.infowindow }
+              venuesData = { this.state.venues }
+              markers= { this.state.markers }
+              updateMarkerState = { this.updateMarkerState }
+              handleSidebarListClick = { this.handleSidebarListClick }
+              updateQuery = { this.updateQuery }
+              defaultMapParams = { this.defaultMapParams }
             />
           </div>
           <div className="map-container">

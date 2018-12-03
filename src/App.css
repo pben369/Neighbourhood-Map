@@ -23,6 +23,10 @@
   height: 100%;
 }
 
+.infowindow{
+  text-align: center;
+}
+
 .list-items{
   list-style: none;
   font-size: 1rem;
