@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Venuelist extends Component {
   render() {
     return (
-      <ol className="Venuelist">
+      <ol className="Venue-list">
         {this.props.venuesData && 
         this.props.venuesData.map(venue => {
           return(
@@ -19,8 +19,16 @@ class Venuelist extends Component {
                       this.props.handleSidebarListClick(venue)
                     } 
                   }>
-                    <h3>{venue.venue.name}</h3>
-                    <p>{venue.venue.location.crossStreet}</p>
+                    <div className="list-wrapper">
+                      <div className="list-venue-photo">
+                        <img src={venue.photourl} alt = {venue.venue.name} height="50"></img>
+                      </div>
+
+                      <div className="list-venue-info">
+                        <h3>{venue.venue.name}</h3>
+                        <p>{venue.venue.location.crossStreet}</p>
+                      </div>
+                    </div>
                   </li>
                 )
               }else{

@@ -24,7 +24,7 @@ class App extends Component {
 
   defaultMapParams = (mapToMarkOn, marker, infowindow) => {
     let bangalore = {lat: 12.9716, lng: 77.5946}
-    this.state.map.setZoom(13)
+    this.state.map.setZoom(12)
     mapToMarkOn.setCenter(bangalore)
 
     if (marker) {
@@ -48,7 +48,6 @@ class App extends Component {
       '<br><br> Source: FourSquare' +
       "</div>"
 
-      console.log(content)
     infowindow.setContent(content)
   }
 
@@ -117,7 +116,7 @@ class App extends Component {
   initGmap = () => {
     let bangalore = {lat: 12.9716, lng: 77.5946}
     let map = new window.google.maps.Map(
-    document.getElementById('map'), {zoom: 13, center: bangalore})
+    document.getElementById('map'), {zoom: 12, center: bangalore})
 
     this.setState({map})
 
@@ -154,7 +153,7 @@ class App extends Component {
       "&section=outdoor" +
       "&near=Bangalore" +
       "&venuePhotos=1" +
-      "&limit=9" +
+      "&limit=15" +
       "&v=20181127"
 
     fetch(apiURL)
@@ -233,7 +232,9 @@ class App extends Component {
     console.log(this.state.venues)
     return (
       <div id="App">
-        <h1>Namma Bengaluru</h1>
+        <div className="header">
+        <h1><a aria-label="Home" tabindex="1" href="/">Bengaluru</a></h1>
+        </div>
         <div>
           <div className="sidebar">
             <Sidebar 

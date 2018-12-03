@@ -36,7 +36,7 @@ class Sidebar extends Component {
 
   render() {
     return (
-      <div>
+      <div className="side-bar-content">
         <input 
           type="search"
           id="search"

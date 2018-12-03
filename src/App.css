@@ -7,6 +7,67 @@
   flex-flow: row nowrap;
 }
 
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.header {
+  width: 100%;
+  height: 80px;
+  background-color: #252831;
+  text-align:center;
+  display: flex;
+  align-items: center;
+}
+
+.header h1 {
+  margin: auto;
+}
+
+.header h1 a {
+  color: #fff;
+  font-size: 16pt;
+  font-weight: 200;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+}
+
+#map {
+  /* position: fixed !important;
+  overflow: visible !important; */
+  height: 100vh;  /* The height is 400 pixels */
+  width: 100%;  /* The width is the width of the web page */
+ }
+
+ .sidebar {
+   background-color: #252831;
+ }
+ 
+input {
+  width: 100%;
+  height: 45px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #e0dede;
+}
+
 .sidebar {
   width: 25%;
   height: 100%;
@@ -20,56 +81,55 @@
 .map-container {
   top: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
-.infowindow{
+.infowindow {
   text-align: center;
 }
 
-.list-items{
+.list-items h3, p {
+  margin: 0;
+}
+
+.list-items {
   list-style: none;
   font-size: 1rem;
   box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
   padding: .5rem;
   margin: .5rem;
   cursor: pointer;
+  background-color: #faebd7;
 }
 
-/* .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-} */
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.list-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: .5rem;
 }
 
-/* .App-link {
-  color: #61dafb;
-} */
-
-#map {
-  /* position: fixed !important;
-  overflow: visible !important; */
-  height: 100vh;  /* The height is 400 pixels */
-  width: 100%;  /* The width is the width of the web page */
- }
- 
-input {
-  width: 100%;
-  height: 45px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
+li.list-items :hover {
+  background-color: #c4c7ce;
 }
+
+.list-wrapper > div {
+  padding-left: .5rem;
+  text-align: left;
+}
+
+
+.Venue-list{
+  padding-left: .5rem;
+}
+
+.list-venue-info > h3{
+  font-size: 14pt;
+  font-weight: 400;
+  font-family: ubuntu;
+  text-transform: uppercase;
+  padding-bottom: 2px;
+}
+
+
 /* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
