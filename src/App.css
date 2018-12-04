@@ -71,6 +71,7 @@ input {
   z-index: 100;
   text-align: center;
   left: -400px;
+  transition: all 500ms linear;
 }
 
 #sidebar {
