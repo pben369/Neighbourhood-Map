@@ -7,7 +7,7 @@ class Sidebar extends Component {
     query: ''
   }
 
-  updateQuery =(query) =>{
+  updateQuery = (query) => {
     this.setState({query})
     const queryMarkers = this.props.venuesData.map(currentVenue => {
       

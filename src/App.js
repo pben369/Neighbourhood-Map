@@ -18,7 +18,7 @@ class App extends Component {
     query: ''
   }
 
-  updateMarkerState =(markers) =>{
+  updateMarkerState = (markers) => {
     this.setState({markers})
   }
 
@@ -228,15 +228,30 @@ class App extends Component {
       )
   }
 
+  toggleSideBar = () => {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+
   render() {
-    console.log(this.state.venues)
+    // console.log(this.state.venues)
     return (
       <div id="App">
         <div className="header">
-        <h1><a aria-label="Home" tabindex="1" href="/">Bengaluru</a></h1>
+          <div 
+            className="toggle-btn"
+            onClick = {() => {
+              this.toggleSideBar()
+            } 
+          }
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <h1><a aria-label="Home" href="/">Bengaluru</a></h1>
         </div>
         <div>
-          <div className="sidebar">
+          <div id="sidebar" className="active">
             <Sidebar 
               mapToMarkOn = { this.state.map }
               infowindow = { this.state.infowindow }
