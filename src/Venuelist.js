@@ -22,12 +22,16 @@ class Venuelist extends Component {
                   {
                     return(
                       <li 
+                        tabindex="3"
+                        role="link"
                         className="list-items" 
                         key= {venue.venue.id}
                         onClick = {() => {
                           this.props.handleSidebarListClick(venue)
-                        } 
-                      }>
+                        }}
+                        onKeyPress = {() => {
+                          this.props.handleSidebarListClick(venue)
+                        }}>
                         <div className="list-wrapper">
                           <div className="list-venue-photo">
                             <img src={venue.photourl} alt = {venue.venue.name} height="50"></img>

@@ -1,3 +1,7 @@
+
+-if using Foursquare, indicate somewhere in your UI and in your README that you are using Foursquare data.
+-A README file is included detailing all steps required to successfully run the application.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

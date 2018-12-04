@@ -239,16 +239,24 @@ class App extends Component {
         <div className="header">
           <div 
             className="toggle-btn"
+            tabIndex="1"
             onClick = {() => {
               this.toggleSideBar()
-            } 
-          }
+            }}
+            onKeyPress = {() => {
+              this.toggleSideBar()
+            }}
           >
             <span></span>
             <span></span>
             <span></span>
           </div>
-          <h1><a aria-label="Home" href="/">Bengaluru</a></h1>
+          <h1><a 
+                tabindex="0" 
+                aria-label="Home" 
+                href="/">Bengaluru
+              </a>
+          </h1>
         </div>
         <div>
           <div id="sidebar" className="active">

@@ -38,6 +38,8 @@ class Sidebar extends Component {
     return (
       <div className="side-bar-content">
         <input 
+          tabindex="2"
+          aria-label="search"
           type="search"
           id="search"
           placeholder="Search Venue by Name"
