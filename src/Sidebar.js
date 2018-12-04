@@ -40,6 +40,7 @@ class Sidebar extends Component {
         <input 
           tabindex="2"
           aria-label="search"
+          role="search"
           type="search"
           id="search"
           placeholder="Search Venue by Name"
