@@ -45,4 +45,5 @@ npm start
 
 
 ## NOTE : 
-serviceworker can be tested only available in build mode.
+1. serviceworker can be tested only available in build mode.
+2. The FourSquare API has a daily limit for fetching venue's photo information, after which it will console log error 429() to indicate it. During which app uses a fallback image url to display "No Image Found".
