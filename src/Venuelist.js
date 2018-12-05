@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 class Venuelist extends Component {
-
+  //ToDo
   // handleNoSearchResults(){
   //   if(document.getElementsByClassName("list-items").length === 0){
   //     return <h3 className="noresults">No Venues Found!!</h3>
@@ -22,7 +22,7 @@ class Venuelist extends Component {
                   {
                     return(
                       <li 
-                        tabindex="3"
+                        tabIndex="3"
                         role="link"
                         className="list-items" 
                         key= {venue.venue.id}
@@ -52,6 +52,7 @@ class Venuelist extends Component {
             })
           }
         </ol>
+        {/* //ToDo */}
         {/* <div>
           { this.handleNoSearchResults() }
         </div> */}

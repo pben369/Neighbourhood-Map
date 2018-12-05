@@ -7,6 +7,8 @@ class Sidebar extends Component {
     query: ''
   }
 
+  //function is search the venue location stored in the state and display
+  // list items and markers on map accordingly
   updateQuery = (query) => {
     this.setState({query})
     const queryMarkers = this.props.venuesData.map(currentVenue => {
@@ -25,12 +27,13 @@ class Sidebar extends Component {
       }
       return currentMarker
     })
-    
+    //on change in input field reset the map params
     this.props.defaultMapParams(
       this.props.mapToMarkOn, 
-      null,
+      null, 
       this.props.infowindow)
 
+    //Update markers as per the query
     this.props.updateMarkerState(queryMarkers)
   }
 
@@ -38,19 +41,19 @@ class Sidebar extends Component {
     return (
       <div className="side-bar-content">
         <input 
-          tabindex="2"
-          aria-label="search"
-          role="search"
-          type="search"
-          id="search"
-          placeholder="Search Venue by Name"
-          value={this.props.query}
+          tabIndex="2" 
+          aria-label="search" 
+          role="search" 
+          type="search" 
+          id="search" 
+          placeholder="Search Venue by Name" 
+          value={this.props.query} 
           onChange={(event) => 
             this.updateQuery(event.target.value)}
         />
         <Venuelist 
-          venuesData = {this.props.venuesData}
-          markers= {this.props.markers}
+          venuesData = {this.props.venuesData} 
+          markers= {this.props.markers} 
           handleSidebarListClick = {this.props.handleSidebarListClick}
           />
       </div>

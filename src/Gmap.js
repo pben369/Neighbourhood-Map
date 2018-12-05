@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class Gmap extends Component {
-
   render() {
     return (
       <main>

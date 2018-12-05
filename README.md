@@ -1,48 +1,48 @@
 
--if using Foursquare, indicate somewhere in your UI and in your README that you are using Foursquare data.
--A README file is included detailing all steps required to successfully run the application.
+# My Neighbourhood Project:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is called "My Neighbourhood" project, a single page application bootstrapped with [Create React App](https://github.com/facebook/create-react-app).features a map of Bangalore - my neighborhood. With functionalities to highlighted locations, third-party data about those locations and various ways to browse the content.
 
-## Available Scripts
+## Functionalities:
 
-In the project directory, you can run:
+1. All application components render on-screen in a responsive manner.
+2. All application components are usable across modern desktop, tablet, and phone browsers.
+3. Location search and list view of venues.
+4. Markers displayed on map as per the search results.
+5. Each Marker when clicked displays venue photo and address.
+6. This app uses Accessibility features which helps in easy navigation using keyboard.
+7. Offline use - this app when built and deployed can be used offline once its cache is fetched.
 
-### `npm start`
+## API's used :
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. [Google Map Javascript API](https://developers.google.com/maps/documentation/javascript/tutorial) to display map and markers
+2. [FourSquare](https://developer.foursquare.com) API to fetch the venues in Bangalore and associated photo urls.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Installation:
 
-### `npm test`
+1. Download the zip file.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Unzip and Change path to project directory
+```
+cd Neighbourhood-Map
+```
+3. Install dependencies
+```
+npm install
+```
 
-### `npm run build`
+## Running the project:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Change path to project directory
+```
+cd Neighbourhood-Map
+```
+2. Start the server
+```
+npm start
+```
+3. Access [localhost:3000](http://localhost:3000/) to see the output.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## NOTE : 
+serviceworker can be tested only available in build mode.

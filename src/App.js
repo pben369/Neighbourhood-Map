@@ -22,6 +22,7 @@ class App extends Component {
     this.setState({markers})
   }
 
+  //function to set default map params for this app
   defaultMapParams = (mapToMarkOn, marker, infowindow) => {
     let bangalore = {lat: 12.9716, lng: 77.5946}
     this.state.map.setZoom(12)
@@ -36,10 +37,12 @@ class App extends Component {
     }
   }
 
+  //function to generate Marker info window content
   infoWindowContent = (venueInfo, infowindow) => {
     let content = 
       "<div class=\"infowindow\">" +
-      "<img class=\"venue-photo\" alt=\"" + venueInfo.venue.name + "\" src= \"" + venueInfo.photourl + "\" height=\"100\" width=\"100\">" +
+      "<img class=\"venue-photo\" alt=\"" + venueInfo.venue.name + "\" src= \"" 
+        + venueInfo.photourl + "\" height=\"100\" width=\"100\">" +
       '<h2>' + venueInfo.venue.name + '</h2>' +
       '<br>' + venueInfo.venue.location.formattedAddress[0] +
       '<br>' + venueInfo.venue.location.formattedAddress[1] +
@@ -54,7 +57,6 @@ class App extends Component {
   openInfoWindows = (map, marker, infowindow, VenueData) => {
     infowindow.open(map, marker)
     infowindow.setContent(null)
-    // this.fetchActiveMarkerPhotoData(VenueData, infowindow)
     this.infoWindowContent(VenueData, infowindow)
   }
 
@@ -73,7 +75,6 @@ class App extends Component {
     }
     
     marker.setAnimation(window.google.maps.Animation.BOUNCE)
-    // clickedMarker.setMap(null)
     this.setState({activeMarker :marker})
     this.openInfoWindows(mapToMarkOn, marker, infowindow, VenueData)
   }
@@ -92,6 +93,7 @@ class App extends Component {
           map: mapToMarkOn,
           title: VenueData.venue.name,
           animation: window.google.maps.Animation.DROP,
+          //update each marker with venue's ID
           id: VenueData.venue.id
         })
 
@@ -120,7 +122,7 @@ class App extends Component {
 
     this.setState({map})
 
-    // The markers positioned at bangalore
+    // The markers positioned at Bangalore.
     this.positionMarkers(map)
   }
 
@@ -139,6 +141,9 @@ class App extends Component {
       script.src= 'https://maps.googleapis.com/maps/api/js?key='+ API_KEY + "&callback=initGmap"
       script.async = true
       script.defer = true
+      script.onerror = function(){
+        alert("An error occurred while trying to load Google Map")
+      }
       document.body.appendChild(script)
     })
   }
@@ -156,6 +161,7 @@ class App extends Component {
       "&limit=15" +
       "&v=20181127"
 
+    //fetch venue data using FourSquare api
     fetch(apiURL)
       .then((response) => {
         return response.json ()
@@ -169,6 +175,7 @@ class App extends Component {
               "&client_id=" + id +
               "&client_secret=" + secret +
               "&v=20181127"
+            //Once we have venue data, fetch its photo url and store it
             fetch(urlFSPhoto)
               .then((response) => {
                 return response.json ()
@@ -184,7 +191,9 @@ class App extends Component {
                   this.state.activeMarkerPhotoData.photos.items["0"].suffix
                 }
                 else{
-                  //fallback image url
+                  //fallback image url if there is no relevant info available and also
+                  //we use fallback image when we hit error 429() ie when api crosses free
+                  //daily api calls limit.
                   urlToPhoto = "http://www.azcounties.org/images/pages/N198/No%20found%20photo.png"
                 }
                 venue.photourl = urlToPhoto
@@ -212,6 +221,7 @@ class App extends Component {
       }
   }
   
+  //Fetch locations once component mounts.
   componentDidMount(){
     this.fetchLocations()
   }
@@ -228,12 +238,12 @@ class App extends Component {
       )
   }
 
+  //function to toggle side bar when hamburger icon is clicked
   toggleSideBar = () => {
     document.getElementById('sidebar').classList.toggle('active');
   }
 
   render() {
-    // console.log(this.state.venues)
     return (
       <div id="App">
         <div className="header">
@@ -252,7 +262,7 @@ class App extends Component {
             <span></span>
           </div>
           <h1><a 
-                tabindex="0" 
+                tabIndex="0" 
                 aria-label="Home" 
                 href="/">Bengaluru
               </a>
