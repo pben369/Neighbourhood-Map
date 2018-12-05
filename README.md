@@ -1,7 +1,7 @@
 
 # My Neighbourhood Project:
 
-This project is called "My Neighbourhood" project, a single page application bootstrapped with [Create React App](https://github.com/facebook/create-react-app).features a map of Bangalore - my neighborhood. With functionalities to highlighted locations, third-party data about those locations and various ways to browse the content.
+This project is called "My Neighbourhood" project, a single page application bootstrapped with [Create React App](https://github.com/facebook/create-react-app), features a map of Bangalore - my neighborhood. With functionalities of highlighted locations, third-party data about those locations and various ways to browse the content.
 
 ## Functionalities:
 
