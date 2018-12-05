@@ -37,11 +37,14 @@ npm install
 ```
 cd Neighbourhood-Map
 ```
-2. Start the server
+2. This app uses an .env file to store API credentials. Without which app will not work.
+You should edit code with your own Google map api keys and FourSquare API keys before proceeding further.
+
+3. Start the server
 ```
 npm start
 ```
-3. Access [localhost:3000](http://localhost:3000/) to see the output.
+4. Access [localhost:3000](http://localhost:3000/) to see the output.
 
 
 ## NOTE : 
